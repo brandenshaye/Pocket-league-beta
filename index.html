@@ -26,6 +26,10 @@ html body img,html body svg{max-width:none}
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
+/* home-screen app: the document itself never scrolls or rubber-bands; only .scr does */
+body:not(.rv-on){position:fixed;inset:0;width:100%;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+@media (display-mode:standalone){.main{padding-top:calc(env(safe-area-inset-top,0px) + 6px)}}
+input,textarea{-webkit-user-select:text;user-select:text}
 body{background:var(--night);color:var(--chalk);font-family:var(--f);-webkit-tap-highlight-color:transparent;touch-action:manipulation;overflow:hidden}
 @font-face{font-family:"Archivo";src:url("fonts/archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
@@ -37,7 +41,7 @@ input{font:inherit;color:inherit}
 /* app frame: the phone is the page */
 .ph{position:fixed;inset:0;max-width:430px;margin:0 auto;background:var(--ink);overflow:hidden;box-shadow:0 0 0 2px var(--line)}
 @media (min-width:700px){.ph{top:0;bottom:0}}
-.scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .scr::-webkit-scrollbar{display:none}
 .main{flex:1 0 auto;display:flex;flex-direction:column;position:relative;padding-top:env(safe-area-inset-top,0px)}
 .foot{position:sticky;bottom:0;z-index:12;flex:none;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--ink)}
@@ -827,7 +831,7 @@ body.th-lav{
 }
 body.th-lav{background:var(--night)}
 body.th-lav .ph{background:linear-gradient(var(--lv-win),var(--lv-alt));box-shadow:0 0 0 1px var(--lv-frame)}
-body.th-lav .foot{background:linear-gradient(var(--lv-win),var(--lv-alt))}
+body.th-lav .foot{background:var(--lv-alt)}   /* solid so the home-indicator strip matches the bottom of the nav */
 body.th-lav :focus-visible{outline-color:var(--red)}
 
 /* ---------- type: Jersey 20 for display, Archivo for body ---------- */
@@ -1527,7 +1531,7 @@ body.th-teal{
 }
 body.th-teal{background:var(--night)}
 body.th-teal .ph{background:linear-gradient(var(--lv-win),var(--lv-alt));box-shadow:0 0 0 1px var(--lv-frame)}
-body.th-teal .foot{background:linear-gradient(var(--lv-win),var(--lv-alt))}
+body.th-teal .foot{background:var(--lv-alt)}   /* solid so the home-indicator strip matches the bottom of the nav */
 body.th-teal :focus-visible{outline-color:var(--red)}
 
 /* ---------- type: Jersey 20 for display, Archivo for body ---------- */
@@ -2227,7 +2231,7 @@ body.th-dark{
 }
 body.th-dark{background:var(--night)}
 body.th-dark .ph{background:linear-gradient(var(--lv-win),var(--lv-alt));box-shadow:0 0 0 1px var(--lv-frame)}
-body.th-dark .foot{background:linear-gradient(var(--lv-win),var(--lv-alt))}
+body.th-dark .foot{background:var(--lv-alt)}   /* solid so the home-indicator strip matches the bottom of the nav */
 body.th-dark :focus-visible{outline-color:var(--red)}
 
 /* ---------- type: Jersey 20 for display, Archivo for body ---------- */
@@ -2939,6 +2943,8 @@ body.th-dark .icard .tier.legendary{color:#fff;background:var(--leg-t)}
 body.th-dark .over.gold.leg{background:rgba(26,16,40,.96)}
 body.th-dark .over.gold.leg h2,body.th-dark .over.gold.leg .k.leg{color:var(--leg-l)}
 body.th-dark .reelwin .col>div.legendary em{color:var(--leg-l)}
+
+body.th-dark .guide{background:#22343C;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.45)}body.th-dark .guide i{background:#22343C}
 
 </style>
 </head>
@@ -5172,7 +5178,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v8.7';
+const BUILD = 'v8.7b';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -5625,7 +5631,7 @@ function isDark(){ const a = (P && P.settings && P.settings.appearance) || 'syst
 function applyTheme(k){ const key = THEMES[k] ? k : 'teal'; document.body.classList.remove('th-lav', 'th-teal', 'th-dark'); THEMES[key].split(' ').forEach(c => document.body.classList.add(c)); if(key === 'teal' && isDark()) document.body.classList.add('th-dark'); S.theme = key; store('kg7.theme.v84', key); syncTeamColor(); }
 if(darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', () => { if(S.theme) { applyTheme(S.theme); render(); } });
 function syncTeamColor(){ if(P && P.primary) document.body.style.setProperty('--lv-home', P.primary); }
-const BETA_GEN = 'v8.6';   // bump to wipe every tester's progress on the next load (fresh account so unlocks get a real test)
+const BETA_GEN = 'v8.6';   // left at v8.6 on purpose: v8.7 is layout only, testers keep their progress   // bump to wipe every tester's progress on the next load (fresh account so unlocks get a real test)
 function boot(){
   if(BETA && load('kg7.betaGen', '') !== BETA_GEN){ [K.profile, K.run, K.seasons, K.daily, 'kg7.mode'].forEach(k => store(k, null)); store('kg7.betaGen', BETA_GEN); P = freshProfile(); SEASONS.length = 0; S.mode = 'classic'; S.run = null; }
   applyTheme(load('kg7.theme.v84', 'teal'));
