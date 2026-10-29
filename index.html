@@ -4641,6 +4641,8 @@ const OPP_TYPE = {
   'Cinnabar Lab Clones':'psychic', 'Pewter Museum Fossils':'rock',
   'Cerulean Cave Wilds':'psychic', 'Route 23 Gatekeepers':'ground', 'The Rival Squad':'normal', 'Indigo Frost':'ice', 'Indigo Fists':'fighting', 'Indigo Specters':'ghost',
   'Indigo Dragons':'dragon', 'The Reigning Champs':'normal',
+  // Johto clubs (v8.9): typed so their stars and captains come from their own corner of the dex, not the shared Normal pool
+  'New Bark Starters':'grass', 'Violet City Flyers':'flying', 'Sprout Tower Monks':'grass', 'Ruins of Alph Scholars':'psychic', 'Slowpoke Well Snoozers':'water', 'Azalea Hive':'bug', 'Ilex Forest Sprites':'fairy', 'Goldenrod Rollouts':'normal', 'Radio Tower Grunts':'dark', 'National Park Bug Catchers':'bug', 'Ecruteak Phantoms':'ghost', 'Burned Tower Beasts':'fire', 'Cianwood Brawlers':'fighting', 'Olivine Lighthouse':'steel', 'Whirl Islands Tide':'water', 'Lake of Rage Reds':'water', 'Mahogany Freeze':'ice', 'Blackthorn Dragons':'dragon', 'Mt. Mortar Karate Kings':'fighting', 'Tohjo Falls Climbers':'rock', 'Indigo Mystics':'psychic', 'Indigo Venom':'poison', 'Indigo Shadows':'dark', 'Mt. Silver Legends':'dragon',
 };
 const WX_HOME = {'Cerulean Tide':'Rain', 'S.S. Anne Sailors':'Rain', 'Cinnabar Blaze':'Sun', 'Cinnabar Lab Clones':'Sun', 'Seafoam Freeze':'Snow', 'Indigo Frost':'Snow',
   'Viridian Quakes':'Sandstorm', 'Victory Road Titans':'Sandstorm', 'Route 23 Gatekeepers':'Sandstorm', 'Pewter Boulders':'Sandstorm', 'Celadon Bloom':'Sun'};
@@ -4983,6 +4985,11 @@ function oppRoster(ctx, T, salt = ''){
 function dressOpp(ctx, T, salt){ const o = oppRoster(ctx, T, salt); T.sch = o.sch; T.roster = o.roster; T.R = playerRows(o.roster, ctx.dex, o.sch, [], {}); return T; }
 function coachBegin(ctx){
   const opp = nextPlayoffOpp(ctx), T = dressOpp(ctx, oppUnits(opp, 0), `${ctx.rounds[ctx.round]}${ctx.round}${(ctx.wins || 0)}`);
+  // their captain: best on the dressed roster who has not captained a club in this playoffs (ctx.oppCaps) or in the player's recent playoffs (ctx.recentOppCaps), typed stars first
+  { const used = new Set([...(ctx.oppCaps || []), ...(ctx.recentOppCaps || [])]), t = OPP_TYPE[opp[0]] || null;
+    const rows = Object.entries(T.R || {}).sort((a, b) => (b[1].e + ((t && b[1].m.types.includes(t)) ? 6 : 0)) - (a[1].e + ((t && a[1].m.types.includes(t)) ? 6 : 0)));
+    const pick = rows.find(([s, r]) => !used.has(r.m.id)) || rows[0];
+    if(pick){ T.captainSlot = pick[0]; (ctx.oppCaps ||= []).push(pick[1].m.id); } }
   ctx.cg = {opp, T, r:ctx.rounds[ctx.round], name:ROUND_NAME[ctx.rounds[ctx.round]], step:'plan', scout:scouting(T)};
   return ctx.cg;
 }
@@ -5200,7 +5207,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v8.9';
+const BUILD = 'v8.9b';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -6268,7 +6275,7 @@ function playSeason(){
   const items = it && it.slot && !['masterball','riskydice'].includes(it.k) ? {[it.slot]:it.k} : null;
   if(it && it.k === 'masterball' && it.slot && r.roster[it.slot]){ P.captures = P.captures || {}; P.captures[captureBucket(r)] = {id:r.roster[it.slot], shiny:isShinyR(r.roster[it.slot]), from:Date.now()}; saveP(); }
   const ctx = labStart(r.roster, DEX, {...r.sch}, r.shinies.slice(), 'B', items);
-  ctx.itemPick = it; ctx.eggTo = it && it.k === 'luckyegg' ? it.eggTo || null : null; ctx.captain = r.captain || null; ctx.captainStars = r.captain ? ((P.captainStars || {})[r.roster[r.captain]] || 0) : 0;
+  ctx.itemPick = it; ctx.eggTo = it && it.k === 'luckyegg' ? it.eggTo || null : null; ctx.captain = r.captain || null; ctx.recentOppCaps = (P.recentOppCaps || []).slice(-12);   // opponent captains from the last few playoffs stay off the stage ctx.captainStars = r.captain ? ((P.captainStars || {})[r.roster[r.captain]] || 0) : 0;
   runRegular(ctx);
   r.ctx = ctx; S.spd = P.settings.speed || 1; S.screen = 'reveal'; S.rv = null; render();
 }
@@ -6328,6 +6335,7 @@ function finishSeason(){
   // playbook
   const nu = [ss.offId, ss.defId].filter(k => k && !P.playbook.includes(k)); P.playbook.push(...nu); ss.newIds = nu;
   // career
+  if(r.ctx && r.ctx.oppCaps && r.ctx.oppCaps.length) P.recentOppCaps = [...(P.recentOppCaps || []), ...r.ctx.oppCaps].slice(-12);
   const c = P.career; c.seasons++; c.wins += ss.wins; c.losses += ss.losses; if(ss.champion){ c.titles++; c.titlesByMode[r.mode] = (c.titlesByMode[r.mode] || 0) + 1; } if(ss.playoffs.length) c.playoffs++; c.poWins += ss.playoffs.filter(g => g.win).length; c.poLosses += ss.playoffs.filter(g => !g.win).length; c.shinies += (ss.shinies || []).length;
   for(const id of Object.values(ss.roster)) c.drafted[id] = (c.drafted[id] || 0) + 1;
   if(!c.best || ss.score > c.best.score) c.best = {score:ss.score, wins:ss.wins, losses:ss.losses, result:ss.result, mode:r.mode, n:ss.n};
@@ -6479,6 +6487,7 @@ function oppMeta(name){
   return {col:col === P.primary ? '#3b3f52' : col, sec, abbr, coach:P.avatar === 'a' ? 'b' : 'a', clash:col === P.primary};
 }
 function aceFor(opp, T){
+  if(T && T.R && T.captainSlot && T.R[T.captainSlot]){ const r = T.R[T.captainSlot]; return {m:r.m, pos:r.pos, slot:T.captainSlot}; }
   if(T && T.R){ const best = Object.entries(T.R).sort((a, b) => b[1].e - a[1].e)[0]; if(best) return {m:best[1].m, pos:best[1].pos, slot:best[0]}; }
   const pos = T.offStyle === 'Smashmouth' ? 'HB' : T.offStyle === 'High Flying' ? 'WRX' : T.offStyle === 'West Coast' ? 'QB' : ['QB','HB','WRX','DE'][hashStr(opp[0]) % 4];
   const mine = new Set(Object.values(R().roster)); const pool = DEX.filter(m => !mine.has(m.id)).sort((a, b) => b.ovr[pos] - a.ovr[pos]).slice(0, 12);
