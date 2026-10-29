@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#141312">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Pocket League">
 <link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" type="image/png" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
 <title>Pocket League</title>
@@ -28,7 +28,7 @@ html body img,html body svg{max-width:none}
 html,body{margin:0;height:100%}
 /* home-screen app: the document itself never scrolls or rubber-bands; only .scr does */
 body:not(.rv-on){position:fixed;inset:0;width:100%;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
-@media (display-mode:standalone){:root{--sat:calc(env(safe-area-inset-top,0px) + 6px)}}
+
 input,textarea{-webkit-user-select:text;user-select:text}
 body{background:var(--night);color:var(--chalk);font-family:var(--f);-webkit-tap-highlight-color:transparent;touch-action:manipulation;overflow:hidden}
 @font-face{font-family:"Archivo";src:url("fonts/archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
@@ -45,7 +45,7 @@ input{font:inherit;color:inherit}
 .scr::-webkit-scrollbar{display:none}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
 .main{flex:1 0 auto;display:flex;flex-direction:column;position:relative;padding-top:var(--sat)}
-.foot{position:sticky;bottom:0;z-index:12;flex:none;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--ink)}
+.foot{position:sticky;bottom:0;z-index:12;flex:none;margin-top:auto;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--ink)}
 /* ===== game UI ===== */
 .cap{font:700 10px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--d2)}
 .cap9{font:700 9px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--d3)}
@@ -817,6 +817,8 @@ body.rv-marking .ph{cursor:crosshair}body.rv-marking .ph *{cursor:crosshair}
 .pcol.off .pch{background:var(--po,var(--line))}.pcol.def .pch{background:var(--pd,var(--line))}
 .pcol.off .pkey{box-shadow:inset 4px 0 0 var(--po,var(--line))}.pcol.def .pkey{box-shadow:inset 4px 0 0 var(--pd,var(--line))}
 .pcol.off .pkey.on{border-color:var(--po);background:color-mix(in srgb,var(--po) 18%,var(--panel))}.pcol.def .pkey.on{border-color:var(--pd);background:color-mix(in srgb,var(--pd) 18%,var(--panel))}
+
+.vtag{font:600 9px/1 var(--f);letter-spacing:.06em;opacity:.55;margin-left:6px;vertical-align:2px}
 
 /* ===== Lavender Link skin (from the C05 study) · scoped to body.th-lav ===== */
 body.th-lav{
@@ -5179,7 +5181,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v8.7c';
+const BUILD = 'v8.7d';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -5615,7 +5617,9 @@ function render(){
   if(v.mount) v.mount(ph);
 }
 // phone: the viewport changes size when the app launches from the home screen, the keyboard opens or the phone rotates; lay the hub and the draft out again
-{ let _rz = null; addEventListener('resize', () => { if(document.body.classList.contains('rv-on')) return; clearTimeout(_rz); _rz = setTimeout(() => { if(!document.querySelector('#sheet') && ((S.tab === 'kickoff' && !S.screen) || S.screen === 'draft') && !S.spinning) render(); }, 120); }); }
+// phone: any screen lays itself out again when the viewport changes (home-screen launch, rotation, keyboard, browser bars). Sheets and live animations are left alone until they finish.
+{ let _rz = null, _last = [innerWidth, innerHeight].join('x'); const relayout = () => { if(document.body.classList.contains('rv-on')) return; const now = [innerWidth, innerHeight].join('x'); if(now === _last) return; _last = now; clearTimeout(_rz); _rz = setTimeout(() => { if(document.querySelector('#sheet') || S.spinning || S.cstage || S.screen === 'reveal') return; const scr = document.querySelector('.scr'), y = scr ? scr.scrollTop : 0; render(); const s2 = document.querySelector('.scr'); if(s2) s2.scrollTop = y; }, 120); };
+  addEventListener('resize', relayout); addEventListener('orientationchange', relayout); if(window.visualViewport) visualViewport.addEventListener('resize', relayout); }
 function goTab(t){ S.tab = t; S.screen = null; if(t === 'locker' && (P.unlockQueue || []).length){ S.lock = {tab:'trophies'}; render(); later(() => ACTS.unlocksheet(), 250); return; } render(); }
 function goScreen(s){ S.screen = s; render(); }
 
@@ -5652,7 +5656,7 @@ function leagueRank(){ const rows = allTimeRows('classic'); const i = rows.findI
 function hubTop(){
   const rk = leagueRank();
   return `<div class="hub-top">${headshot(P.avatar, 32)}
-    <div class="nm"><b>${esc(P.coach || 'New coach')}</b><small>${esc(P.team || 'No team yet')} · ${careerRec()}${P.career.titles ? ` · ${P.career.titles} title${P.career.titles > 1 ? 's' : ''}` : ''}</small></div>
+    <div class="nm"><b>${esc(P.coach || 'New coach')}${BETA ? `<i class="vtag">${BUILD}</i>` : ''}</b><small>${esc(P.team || 'No team yet')} · ${careerRec()}${P.career.titles ? ` · ${P.career.titles} title${P.career.titles > 1 ? 's' : ''}` : ''}</small></div>
     <button class="rank" data-tab="league"><span class="cap9">League rank</span><b class="tn">${rk ? '#' + rk : '<span class="dim">·</span>'}</b></button>
     <button class="gear" aria-label="Settings" data-act="settings">${r3('gear', 22)}</button></div>`;
 }
