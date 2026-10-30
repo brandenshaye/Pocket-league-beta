@@ -1527,6 +1527,12 @@ body.th-lav .isnew{position:relative;box-shadow:0 0 0 2px var(--tang),0 0 14px r
 body.th-lav .newrib{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--tang);color:#2A1606;font:700 9px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:999px;z-index:3;white-space:nowrap}
 body.th-lav .lrail .pk.isnew{overflow:visible}
 
+/* formation cue: the other scheme's chip gets a tangerine ring and shows the rating the pending pick would get there (the selected chip is already tangerine, so the cue is a ring, not a fill) */
+body.th-lav .fseg button{position:relative}
+body.th-lav .fseg button.hint{color:var(--lv-ink);background:var(--lv-hi);box-shadow:0 0 0 2px var(--tang);animation:fhintpulse 1.2s ease-in-out infinite;padding-right:6px}
+body.th-lav .fseg button.hint .fhint{display:inline-block;margin-left:5px;padding:0 5px;height:15px;border-radius:999px;background:var(--tang);color:#2A1606;font:700 10px/15px var(--f);letter-spacing:0;vertical-align:1px}
+@keyframes fhintpulse{0%,100%{box-shadow:0 0 0 2px var(--tang)}50%{box-shadow:0 0 0 4px rgba(245,149,58,.45)}}body.rmo .fseg button.hint{animation:none}
+
 /* ===== Teal palette, generated from theme-lav.css by build.py ===== */
 /* ===== Lavender Link skin (from the C05 study) · scoped to body.th-teal ===== */
 body.th-teal{
@@ -2233,6 +2239,12 @@ body.th-teal .isnew{position:relative;box-shadow:0 0 0 2px var(--tang),0 0 14px 
 body.th-teal .newrib{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--tang);color:#2A1606;font:700 9px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:999px;z-index:3;white-space:nowrap}
 body.th-teal .lrail .pk.isnew{overflow:visible}
 
+/* formation cue: the other scheme's chip gets a tangerine ring and shows the rating the pending pick would get there (the selected chip is already tangerine, so the cue is a ring, not a fill) */
+body.th-teal .fseg button{position:relative}
+body.th-teal .fseg button.hint{color:var(--lv-ink);background:var(--lv-hi);box-shadow:0 0 0 2px var(--tang);animation:fhintpulse 1.2s ease-in-out infinite;padding-right:6px}
+body.th-teal .fseg button.hint .fhint{display:inline-block;margin-left:5px;padding:0 5px;height:15px;border-radius:999px;background:var(--tang);color:#2A1606;font:700 10px/15px var(--f);letter-spacing:0;vertical-align:1px}
+@keyframes fhintpulse{0%,100%{box-shadow:0 0 0 2px var(--tang)}50%{box-shadow:0 0 0 4px rgba(245,149,58,.45)}}body.rmo .fseg button.hint{animation:none}
+
 /* ===== Dark mode, generated from the teal palette by build.py ===== */
 /* ===== Lavender Link skin (from the C05 study) · scoped to body.th-dark ===== */
 body.th-dark{
@@ -2938,6 +2950,12 @@ body.th-dark .lchips button{position:relative}body.th-dark .lchips .ndot2{positi
 body.th-dark .isnew{position:relative;box-shadow:0 0 0 2px var(--tang),0 0 14px rgba(245,149,58,.45)!important}
 body.th-dark .newrib{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--tang);color:#2A1606;font:700 9px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:999px;z-index:3;white-space:nowrap}
 body.th-dark .lrail .pk.isnew{overflow:visible}
+
+/* formation cue: the other scheme's chip gets a tangerine ring and shows the rating the pending pick would get there (the selected chip is already tangerine, so the cue is a ring, not a fill) */
+body.th-dark .fseg button{position:relative}
+body.th-dark .fseg button.hint{color:var(--lv-ink);background:var(--lv-hi);box-shadow:0 0 0 2px var(--tang);animation:fhintpulse 1.2s ease-in-out infinite;padding-right:6px}
+body.th-dark .fseg button.hint .fhint{display:inline-block;margin-left:5px;padding:0 5px;height:15px;border-radius:999px;background:var(--tang);color:#2A1606;font:700 10px/15px var(--f);letter-spacing:0;vertical-align:1px}
+@keyframes fhintpulse{0%,100%{box-shadow:0 0 0 2px var(--tang)}50%{box-shadow:0 0 0 4px rgba(245,149,58,.45)}}body.rmo .fseg button.hint{animation:none}
 
 /* hand-tuned dark mode fixes, layered after the generated file */
 body.th-dark .nav button.on{background:linear-gradient(#22343C,#17242A);border-color:#4C7480;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 2px 0 #0A1114;color:#E4ECEE}
@@ -5207,7 +5225,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v8.9b';
+const BUILD = 'v8.9c';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -5907,7 +5925,13 @@ function stripHTML(side, T){
 }
 function schemeSeg(side){
   const r = R(), opts = side === 'off' ? [['spread','Spread'],['pro','I-Form']] : [['43','4-3'],['34','3-4']], cur = side === 'off' ? r.sch.form : r.sch.def;
-  return `<div class="fseg ${side}">${opts.map(([k, l]) => `<button class="${k === cur ? 'on' : ''}" data-act="scheme" data-side="${side}" data-k="${k}">${l}</button>`).join('')}</div>`;
+  // cue: while a pick is pending, the other formation's chip glows and shows the rating he would get there, when that beats his best open spot here by 3+ (Magcargo NT 84 in the 3-4 vs C 67 in the 4-3)
+  const hint = {}; const m = r.pending ? byId(r.pending) : null;
+  if(m){ const here = bestSpot(m), hereV = here ? here.ovr : 0;
+    for(const [k] of opts){ if(k === cur) continue; const alt = side === 'off' ? {...r.sch, form:k} : {...r.sch, def:k};
+      const there = slotOptions(m, r.roster, alt).filter(o => !o.key || o.key === k).sort((a, b) => b.ovr - a.ovr)[0];
+      if(there && there.ovr >= hereV + 3) hint[k] = there.ovr; } }
+  return `<div class="fseg ${side}">${opts.map(([k, l]) => `<button class="${k === cur ? 'on' : ''} ${hint[k] ? 'hint' : ''}" data-act="scheme" data-side="${side}" data-k="${k}">${l}${hint[k] ? `<em class="fhint">${hint[k]}</em>` : ''}</button>`).join('')}</div>`;
 }
 function bestSpot(m){
   const r = R(), cur = o => !o.key || o.key === (o.slot.side === 'off' ? r.sch.form : r.sch.def);
