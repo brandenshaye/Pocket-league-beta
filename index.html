@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<meta name="theme-color" content="#141312">
+<meta name="theme-color" content="#17242A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1185,9 +1185,10 @@ body.th-lav .hubstage{position:relative;flex:none;overflow:hidden;margin:6px 0;b
 body.th-lav .hubstage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 1px 0 var(--lv-gline),inset 0 -1px 0 var(--lv-gline)}
 body.th-lav .hubstage img{position:absolute;display:block;max-width:none;image-rendering:pixelated;pointer-events:none}
 body.th-lav .hubstage .scene{z-index:0}
-body.th-lav .hubstage .stg-cap{z-index:1;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
+body.th-lav .hubstage .scenetop{position:absolute;left:0;right:0;top:0;overflow:hidden;z-index:1;pointer-events:none;-webkit-mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%);mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%)}body.th-lav .hubstage .scenetop img{position:absolute;max-width:none;image-rendering:pixelated}
+body.th-lav .hubstage .stg-cap{z-index:2;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
 body.th-lav .hubstage .stg-cap.shiny{filter:hue-rotate(140deg) saturate(1.35) drop-shadow(0 0 4px rgba(255,255,255,.85))}
-body.th-lav .hubstage .stg-coach{z-index:2;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+body.th-lav .hubstage .stg-coach{z-index:3;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 body.th-lav .modebay{flex:1 0 auto;display:flex;flex-direction:column;padding:0 12px 12px;border-top:1px solid var(--lv-frame);background:#DCDEF9 radial-gradient(circle,rgba(92,93,226,.28) 1px,transparent 1.5px);background-size:9px 9px}
 body.th-lav .modebay .mhd{flex:none;height:40px;display:flex;align-items:center;padding:2px 4px 0;font:400 20px/1 var(--fd);letter-spacing:.04em;text-transform:uppercase;color:var(--chalk)}
 body.th-lav .modebay .mbrow{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;min-height:0}
@@ -1514,7 +1515,7 @@ body.th-lav .guide.lkguide{left:12px;right:auto;top:58px;bottom:auto;width:auto;
 /* v8.4k poster */
 body.th-lav .lposter{min-height:132px;height:132px;padding:0 12px;display:flex;align-items:center}body.th-lav .lposter .ptext{position:relative;z-index:1;max-width:205px}
 body.th-lav .lposter .ptext span em{font:400 22px/1 var(--fd);font-style:normal;vertical-align:-2px;margin:0 2px}
-body.th-lav .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-lav .lposter .cbadge{position:absolute;z-index:2;width:20px;height:20px;border-radius:50%;background:var(--lv-gold);color:#241c00;font:400 14px/20px var(--fd);text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+body.th-lav .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-lav .lposter .cbadge{position:absolute;z-index:2;width:24px;height:24px;display:grid;place-items:center;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 
 body.th-lav .pk.pkpt .pkstar{color:var(--gold,#d9a300);font-size:10px;letter-spacing:1px;line-height:1}
 
@@ -1897,9 +1898,10 @@ body.th-teal .hubstage{position:relative;flex:none;overflow:hidden;margin:6px 0;
 body.th-teal .hubstage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 1px 0 var(--lv-gline),inset 0 -1px 0 var(--lv-gline)}
 body.th-teal .hubstage img{position:absolute;display:block;max-width:none;image-rendering:pixelated;pointer-events:none}
 body.th-teal .hubstage .scene{z-index:0}
-body.th-teal .hubstage .stg-cap{z-index:1;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
+body.th-teal .hubstage .scenetop{position:absolute;left:0;right:0;top:0;overflow:hidden;z-index:1;pointer-events:none;-webkit-mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%);mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%)}body.th-teal .hubstage .scenetop img{position:absolute;max-width:none;image-rendering:pixelated}
+body.th-teal .hubstage .stg-cap{z-index:2;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
 body.th-teal .hubstage .stg-cap.shiny{filter:hue-rotate(140deg) saturate(1.35) drop-shadow(0 0 4px rgba(255,255,255,.85))}
-body.th-teal .hubstage .stg-coach{z-index:2;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+body.th-teal .hubstage .stg-coach{z-index:3;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 body.th-teal .modebay{flex:1 0 auto;display:flex;flex-direction:column;padding:0 12px 12px;border-top:1px solid var(--lv-frame);background:#DDE5E8 radial-gradient(circle,rgba(40,125,142,.28) 1px,transparent 1.5px);background-size:9px 9px}
 body.th-teal .modebay .mhd{flex:none;height:40px;display:flex;align-items:center;padding:2px 4px 0;font:400 20px/1 var(--fd);letter-spacing:.04em;text-transform:uppercase;color:var(--chalk)}
 body.th-teal .modebay .mbrow{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;min-height:0}
@@ -2226,7 +2228,7 @@ body.th-teal .guide.lkguide{left:12px;right:auto;top:58px;bottom:auto;width:auto
 /* v8.4k poster */
 body.th-teal .lposter{min-height:132px;height:132px;padding:0 12px;display:flex;align-items:center}body.th-teal .lposter .ptext{position:relative;z-index:1;max-width:205px}
 body.th-teal .lposter .ptext span em{font:400 22px/1 var(--fd);font-style:normal;vertical-align:-2px;margin:0 2px}
-body.th-teal .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-teal .lposter .cbadge{position:absolute;z-index:2;width:20px;height:20px;border-radius:50%;background:var(--lv-gold);color:#241c00;font:400 14px/20px var(--fd);text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+body.th-teal .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-teal .lposter .cbadge{position:absolute;z-index:2;width:24px;height:24px;display:grid;place-items:center;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 
 body.th-teal .pk.pkpt .pkstar{color:var(--gold,#d9a300);font-size:10px;letter-spacing:1px;line-height:1}
 
@@ -2609,9 +2611,10 @@ body.th-dark .hubstage{position:relative;flex:none;overflow:hidden;margin:6px 0;
 body.th-dark .hubstage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 1px 0 var(--lv-gline),inset 0 -1px 0 var(--lv-gline)}
 body.th-dark .hubstage img{position:absolute;display:block;max-width:none;image-rendering:pixelated;pointer-events:none}
 body.th-dark .hubstage .scene{z-index:0}
-body.th-dark .hubstage .stg-cap{z-index:1;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
+body.th-dark .hubstage .scenetop{position:absolute;left:0;right:0;top:0;overflow:hidden;z-index:1;pointer-events:none;-webkit-mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%);mask-image:linear-gradient(#000 calc(100% - var(--blend)),transparent 100%)}body.th-dark .hubstage .scenetop img{position:absolute;max-width:none;image-rendering:pixelated}
+body.th-dark .hubstage .stg-cap{z-index:2;transform:scaleX(-1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
 body.th-dark .hubstage .stg-cap.shiny{filter:hue-rotate(140deg) saturate(1.35) drop-shadow(0 0 4px rgba(160,200,210,.85))}
-body.th-dark .hubstage .stg-coach{z-index:2;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+body.th-dark .hubstage .stg-coach{z-index:3;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 body.th-dark .modebay{flex:1 0 auto;display:flex;flex-direction:column;padding:0 12px 12px;border-top:1px solid var(--lv-frame);background:#0F181C radial-gradient(circle,rgba(40,125,142,.28) 1px,transparent 1.5px);background-size:9px 9px}
 body.th-dark .modebay .mhd{flex:none;height:40px;display:flex;align-items:center;padding:2px 4px 0;font:400 20px/1 var(--fd);letter-spacing:.04em;text-transform:uppercase;color:var(--chalk)}
 body.th-dark .modebay .mbrow{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;min-height:0}
@@ -2938,7 +2941,7 @@ body.th-dark .guide.lkguide{left:12px;right:auto;top:58px;bottom:auto;width:auto
 /* v8.4k poster */
 body.th-dark .lposter{min-height:132px;height:132px;padding:0 12px;display:flex;align-items:center}body.th-dark .lposter .ptext{position:relative;z-index:1;max-width:205px}
 body.th-dark .lposter .ptext span em{font:400 22px/1 var(--fd);font-style:normal;vertical-align:-2px;margin:0 2px}
-body.th-dark .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-dark .lposter .cbadge{position:absolute;z-index:2;width:20px;height:20px;border-radius:50%;background:var(--lv-gold);color:#241c00;font:400 14px/20px var(--fd);text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+body.th-dark .lposter .pm{position:absolute;right:auto;bottom:auto}body.th-dark .lposter .cbadge{position:absolute;z-index:2;width:24px;height:24px;display:grid;place-items:center;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
 
 body.th-dark .pk.pkpt .pkstar{color:var(--gold,#d9a300);font-size:10px;letter-spacing:1px;line-height:1}
 
@@ -3448,7 +3451,7 @@ const MODES = {
   gold:   {name:'Gold', short:'Gold', blurb:'All 251 from Kanto and Johto. Johto gyms join the schedule, and the Johto Elite Four guard the Indigo Bowl.'},
 };
 let MODE = 'classic', OPPONENTS = OPPONENTS_KANTO, PLAYOFF_POOL = PLAYOFF_KANTO;
-const MODE_ADJ = {classic:-1, gold:0.5};   // v8.6: beta said playoffs were a given; clubs +0.5 Classic, +2 Gold (random drafts: 40% playoffs to 28%). Root fix (clubs scaled to the draft pool) in the balance pass
+const MODE_ADJ = {classic:-0.25, gold:0.5};   // v8.6: beta said playoffs were a given; clubs +0.5 Classic, +2 Gold (random drafts: 40% playoffs to 28%). Root fix (clubs scaled to the draft pool) in the balance pass
 function setMode(m){ MODE = m; OPPONENTS = m === 'gold' ? [...OPPONENTS_KANTO, ...OPPONENTS_JOHTO] : OPPONENTS_KANTO; PLAYOFF_POOL = m === 'gold' ? PLAYOFF_GOLD : PLAYOFF_KANTO; OPP_ADJ = MODE_ADJ[m]; }
 const ROUND_NAME = {WC:'Wild Card', DIV:'Divisional Round', CONF:'Conference Final', BOWL:'Indigo Bowl'};
 // what each identity means mechanically for a computer team: its style plus a small unit tilt
@@ -5225,7 +5228,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v8.9c';
+const BUILD = 'v9.0';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -5721,17 +5724,19 @@ function hubTop(){
 const STAGE = {coach:[354.5, 1276.6], cap:[720, 1190.8], k:8.252, band:[55, 1300]};
 const sceneOf = () => SCENES[P.scene] && sceneOk(P.scene) ? P.scene : '01-night-stadium';
 const sceneOk = k => { const u = UNLOCKS.scenes[k]; return !!u && (u.stock || P.unlocks.includes(u.ach)); };
-// fit the art to the hero: full width when it fits; on short phones crop sky and ground first, then shrink and fill the sides with the scene's colors
+// fit the art to the hero. Always full width, never side gutters. A hero taller than the art scales it up and crops the sides.
+// A short hero (Safari with its bars) shows two slices of the same art: the ground band anchored to the bottom (the coach stands on real ground)
+// and the scene's own logo band laid over the top, melted into the sky where they meet (slice = how tall the top band is, 0 when the whole art fits).
+// The cast shrinks with the hero (k) so the coach fits under the logo; coach and Pokémon keep one scale.
+const STAGE_LOGO_BAND = 330, STAGE_BLEND = 28;
 function stageFit(W, H){
-  let s = W / 1080, top = 0, left = 0; const full = 1376 * s;
+  let s = W / 1080, top = 0, left = 0, slice = 0, k = 1; const full = 1376 * s;
   if(H >= full){ s = H / 1376; left = (W - 1080 * s) / 2; }
-  else { const c = full - H, tMax = STAGE.band[0] * s, bMax = (1376 - STAGE.band[1]) * s;
-    if(c <= tMax + bMax) top = -Math.min(c, tMax);
-    else { s = H / (STAGE.band[1] - STAGE.band[0]); top = -STAGE.band[0] * s; left = (W - 1080 * s) / 2; } }
-  return {s, top, left};
+  else { top = H - full; slice = Math.round(STAGE_LOGO_BAND * s); k = Math.max(.55, H / full); }
+  return {s, top, left, slice, k, full};
 }
 function stageCast(f, capId, shiny){
-  const at = ([x, y]) => [f.left + x * f.s, f.top + y * f.s], sc = STAGE.k * f.s;
+  const at = ([x, y]) => [f.left + x * f.s, f.top + y * f.s], sc = STAGE.k * f.s * (f.k || 1);
   const oc = outfitCell(P.outfit), mt = COACH_META[(COACHES[P.avatar] ? P.avatar : MGRS[0]) + '_o' + (oc + 1)] || [48, 92];
   const [cx, cy] = at(STAGE.coach);
   const coach = `<img class="stg-coach" data-tk="${trainerKey()}" src="${trainerSrc()}" alt="" draggable="false" style="left:${(cx - mt[0] * sc).toFixed(1)}px;top:${(cy - mt[1] * sc).toFixed(1)}px;width:${(96 * sc).toFixed(1)}px;height:${(96 * sc).toFixed(1)}px">`;
@@ -5757,6 +5762,7 @@ function screenHub(){
   const html = `${hubTop()}${guide}
     <div class="hubstage" id="stg" style="height:${heroH}px;--sky:${sc.sky};--ground:${sc.ground}">
       <img class="scene" src="${sc.src}" alt="" draggable="false" style="left:${f.left.toFixed(1)}px;top:${f.top.toFixed(1)}px;width:${(1080 * f.s).toFixed(1)}px;height:${(1376 * f.s).toFixed(1)}px">
+      ${f.slice ? `<div class="scenetop" style="height:${f.slice + STAGE_BLEND}px;--blend:${STAGE_BLEND}px"><img src="${sc.src}" alt="" draggable="false" style="left:0;top:0;width:${(1080 * f.s).toFixed(1)}px;height:${(1376 * f.s).toFixed(1)}px"></div>` : ''}
       ${stageCast(f, capId, capShiny)}
     </div>
     <div class="modebay" style="--ah:${ah}px">
@@ -7135,7 +7141,7 @@ function screenLocker(){
     const bestPair = rows.slice().sort((a, b) => (b[0].score || 0) - (a[0].score || 0))[0];
     // Best season poster per Branden's poster block (2026-10-28): the captain at 1.35x, feet at x 286 / y 121 on the 358 x 132 card; text block centered vertically; C badge top-left of the sprite box
     const poster = bestPair ? (() => { const ss = bestPair[0], cap = ss.captain ? ss.roster[ss.captain] : null, W = Math.round(96 * 1.35);
-      return `<button class="lposter" data-act="viewseason" data-i="${bestPair[1]}" style="--team:${P.primary};background-image:url(${vsbgSrc(vsbgMine(), P.primary, () => { if(S.tab === 'locker' && !S.screen) render(); }) || VSBG[VSBG_DEFAULT]})"><div class="ptext"><small>Best season</small><b>${ss.wins}-${ss.losses} · ${ss.champion ? 'Bowl champs' : esc(ss.result || '')}</b><span>Season ${ss.n} · <em>${ss.score || 0}</em> points</span></div>${cap ? `<div class="pm" style="left:${286 - W / 2}px;top:${121 - W}px;width:${W}px;height:${W}px">${(() => { const bb = (SPB.png || {})[cap] || [16, 16, 80, 90], k = W / 96, cx = (48 - (bb[0] + bb[2]) / 2) * k, fy = (96 - bb[3]) * k; return `<span class="cbadge" style="left:${(bb[0] * k + cx - 10).toFixed(0)}px;top:${(bb[1] * k + fy - 10).toFixed(0)}px">C</span>`; })()}<span class="sw cast" style="width:${W}px;height:${W}px">${spr(cap, {w:W, shiny:(ss.shinies || []).includes(cap), center:true})}</span></div>` : ''}</button>`; })() : '';
+      return `<button class="lposter" data-act="viewseason" data-i="${bestPair[1]}" style="--team:${P.primary};background-image:url(${vsbgSrc(vsbgMine(), P.primary, () => { if(S.tab === 'locker' && !S.screen) render(); }) || VSBG[VSBG_DEFAULT]})"><div class="ptext"><small>Best season</small><b>${ss.wins}-${ss.losses} · ${ss.champion ? 'Bowl champs' : esc(ss.result || '')}</b><span>Season ${ss.n} · <em>${ss.score || 0}</em> points</span></div>${cap ? `<div class="pm" style="left:${286 - W / 2}px;top:${121 - W}px;width:${W}px;height:${W}px">${(() => { const bb = (SPB.png || {})[cap] || [16, 16, 80, 90], k = W / 96, cx = (48 - (bb[0] + bb[2]) / 2) * k, fy = (96 - bb[3]) * k; return `<span class="cbadge" style="left:${(bb[0] * k + cx - 12).toFixed(0)}px;top:${(bb[1] * k + fy - 12).toFixed(0)}px">${r3('captain', 24)}</span>`; })()}<span class="sw cast" style="width:${W}px;height:${W}px">${spr(cap, {w:W, shiny:(ss.shinies || []).includes(cap), center:true})}</span></div>` : ''}</button>`; })() : '';
     const tl = rows.length ? `<div class="ltl flick">${rows.map(([ss, i]) => `<button class="sn fl ${ss.champion ? 'gold' : ''} ${!ss.playoffs.length ? 'miss' : ''}" data-act="viewseason" data-i="${i}"><small>S${ss.n}${ss.daily ? ' · D' : ''}</small><b>${ss.wins}-${ss.losses}</b><span>${ss.champion ? 'Bowl champs' : ss.playoffs.length ? esc(ss.result || 'Playoffs') : 'Missed'}</span><em>${ss.score || 0}</em></button>`).join('')}</div>` : '<p class="mini">No seasons yet.</p>';
     body = `<section class="lsec">${poster}<h2>Recent runs</h2><p>Newest first. Gold is a title. Tap one to reopen its results.</p>${tl}
       <div class="lledger" style="padding:8px 0 0">${[[c.wins || 0, 'Wins'],[c.losses || 0, 'Losses'],[c.playoffs || 0, 'Playoffs'],[`${c.poWins || 0}-${c.poLosses || 0}`, 'Playoff rec']].map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join('')}</div></section>`;
