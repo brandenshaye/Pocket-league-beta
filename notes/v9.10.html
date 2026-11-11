@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pocket League v9.10 patch notes</title>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pocket League">
+<meta property="og:title" content="Pocket League v9.10 patch notes">
+<meta property="og:description" content="Pocket Packs, Sim Engine 7, playoff intros with music, and the league's numbers so far.">
+<meta property="og:image" content="https://brandenshaye.github.io/Pocket-league-beta/notes/v9.10-card.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://brandenshaye.github.io/Pocket-league-beta/notes/v9.10.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brandenshaye.github.io/Pocket-league-beta/notes/v9.10-card.png">
+<link rel="icon" href="../icon-180.png"><link rel="apple-touch-icon" href="../icon-180.png">
+<meta name="theme-color" content="#182B35">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>*{box-sizing:border-box}img{max-width:100%}
+:root{--bg:#F3F5F7;--card:#FFFFFF;--ink:#182B35;--mut:#5C6F78;--line:#C9D4D8;--teal:#1F5660;--teal2:#2FB7C4;--tang:#F5953A;--chip:#E6F4F6;--gold:#B98900;--bar:#DDE6E9;
+  --fd:'Barlow Condensed',Impact,'Arial Narrow',sans-serif;--fb:'DM Sans',system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A1F;--card:#182B35;--ink:#EEF4F6;--mut:#9FB3BB;--line:#2C424C;--teal:#2FB7C4;--teal2:#2FB7C4;--chip:#143039;--gold:#F1C64C;--bar:#22343C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1A1F;--card:#182B35;--ink:#EEF4F6;--mut:#9FB3BB;--line:#2C424C;--teal:#2FB7C4;--teal2:#2FB7C4;--chip:#143039;--gold:#F1C64C;--bar:#22343C;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--fb)}
+.wrap{max-width:640px;margin:0 auto;padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero{padding:28px 0 18px;border-bottom:3px solid var(--teal)}
+.eyebrow{font:700 12px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+h1{font:italic 800 56px/.95 var(--fd);text-transform:uppercase;margin:8px 0 10px;letter-spacing:.01em;text-wrap:balance}
+h1 span{color:var(--tang)}
+.lede{margin:0;max-width:34em;color:var(--mut);font-size:17px}
+h2{font:italic 800 30px/1 var(--fd);text-transform:uppercase;margin:34px 0 12px;display:flex;align-items:center;gap:10px;text-wrap:balance}
+h2 i{display:inline-block;flex:none;width:10px;height:28px;background:var(--tang);transform:skewX(-6deg)}
+.card{background:var(--card);border:2px solid var(--line);padding:14px;margin-bottom:14px}
+.card h3{font:italic 800 24px/1 var(--fd);text-transform:uppercase;margin:0 0 6px}
+.card p{margin:0 0 8px;font-size:15px}
+.card ol,.card ul{margin:0;padding-left:20px;font-size:15px}
+.card li{margin:3px 0}
+.tag{display:inline-block;font:700 11px/1 var(--fb);letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;background:var(--chip);color:var(--teal);transform:skewX(-6deg);margin-bottom:8px}
+.tag b{display:inline-block;transform:skewX(6deg);font-weight:700}
+.tag.hot{background:var(--tang);color:#2A1606}
+.pair{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:16px;align-items:start}
+.pair img,.duo img{width:100%;border:2px solid var(--line);display:block;background:#000}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.note{font-size:14px;color:var(--mut);margin:6px 0 0}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 4px}
+.pay div{background:var(--chip);padding:10px 6px;text-align:center}
+.pay b{display:flex;align-items:center;justify-content:center;gap:5px;font:italic 800 30px/1 var(--fd);color:var(--teal)}
+.pay img{image-rendering:pixelated;flex:none}
+.pay span{display:block;font:700 10px/1.2 var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-top:4px}
+.bars{display:grid;gap:8px;margin-top:10px}
+.bars div{display:grid;grid-template-columns:92px 1fr 44px;gap:8px;align-items:center;font-size:14px}
+.bars i{display:block;height:14px;background:var(--bar)}
+.bars i u{display:block;height:100%;background:var(--teal2)}
+.bars b{font:italic 800 20px/1 var(--fd);text-align:right;font-variant-numeric:tabular-nums}
+.fixes{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.fixes li{background:var(--card);border-left:4px solid var(--teal2);padding:10px 14px;font-size:15px}
+.fixes b{display:block;font:italic 800 18px/1 var(--fd);text-transform:uppercase;margin-bottom:3px}
+.ver{background:var(--ink);color:var(--bg);padding:14px 16px;font-size:15px;margin-top:28px}
+/* league numbers */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tiles div{background:var(--card);border:2px solid var(--line);padding:12px 8px;text-align:center;min-width:0}
+.tiles b{display:block;font:italic 800 38px/1 var(--fd);color:var(--teal);font-variant-numeric:tabular-nums}
+.tiles span{display:block;font:700 10px/1.25 var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-top:4px}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:26px 56px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--card);border:2px solid var(--line);padding:6px 12px 6px 8px}
+.rank .n{font:italic 800 20px/1 var(--fd);color:var(--mut);text-align:center}
+.rank li:first-child{border-color:var(--gold)}.rank li:first-child .n{color:var(--gold)}
+.rank .pic{width:56px;height:56px;display:grid;place-items:center}
+.rank .pic img{max-width:56px;max-height:56px;image-rendering:pixelated}
+.rank .pic img.coach{height:54px;width:auto;max-width:none}
+.rank .pic img.face{width:48px;height:48px;object-fit:cover;border-radius:50%;image-rendering:auto;border:2px solid var(--line)}
+.rank .nm{min-width:0}.rank .nm b{display:block;font:italic 800 21px/1 var(--fd);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank .nm small{display:block;font-size:12.5px;color:var(--mut)}
+.rank .v{font:italic 800 26px/1 var(--fd);font-variant-numeric:tabular-nums;text-align:right}
+.rank .v small{display:block;font:700 9px/1 var(--fb);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:2px;font-style:normal}
+h4{font:700 12px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:22px 0 8px}
+@media (max-width:430px){.pair{grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:12px}h1{font-size:46px}.pay{grid-template-columns:repeat(2,1fr)}.tiles b{font-size:32px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">DPL · Pocket League · patch notes preview</div>
+  <h1>Coming in v9.10: <span>Pocket Packs</span></h1>
+  <p class="lede">Card packs, a rebuilt sim that reads the players on the field, and playoff intros with music. This one is dropping soon. When it lands, the game updates itself the next time you open it.</p>
+</header>
+
+<h2><i></i>Pocket Packs</h2>
+<div class="card">
+  <span class="tag hot"><b>New</b></span>
+  <div class="pair">
+    <img src="v9.10-open.gif" alt="Opening a Holo Pack: swipe across the top to tear it, swipe the card to flip it, swipe up to keep it">
+    <div>
+      <h3>Rip packs, pull gear</h3>
+      <p>Every run you finish now pays <b>Pocket Change</b>. Spend it in the Pack Shop and pull stuff for your home screen. No words on the opening, just your thumb:</p>
+      <ol><li>Swipe across the top to tear the pack.</li><li>Swipe the card to flip it.</li><li>Swipe up to keep it.</li></ol>
+      <p class="note">What's in the packs is a surprise. That card in the clip is blacked out on purpose.</p>
+    </div>
+  </div>
+  <div class="pay">
+    <div><b>+10<img src="v9.10-coin.png" alt="Pocket Change" width="22" height="22"></b><span>Finish a run</span></div><div><b>+1<img src="v9.10-coin.png" alt="Pocket Change" width="22" height="22"></b><span>Each win</span></div><div><b>+2<img src="v9.10-coin.png" alt="Pocket Change" width="22" height="22"></b><span>Each playoff win</span></div><div><b>+5<img src="v9.10-coin.png" alt="Pocket Change" width="22" height="22"></b><span>Win the Bowl</span></div>
+  </div>
+</div>
+<div class="card">
+  <div class="pair">
+    <img src="v9.10-shop.jpg" alt="The Pack Shop: the Standard Pack and the Holo Pack side by side">
+    <div>
+      <h3>Two packs</h3>
+      <ul>
+        <li><b>Standard Pack</b>: 50 Pocket Change <img src="v9.10-coin.png" alt="" style="width:16px;height:16px;display:inline;border:0;background:none;image-rendering:pixelated;vertical-align:-2px">. One random Common you don't own.</li>
+        <li><b>Holo Pack</b>: can't be bought. Win the Indigo Bowl or finish a day on top of the daily board and one is yours. One random Legendary you don't own.</li>
+        <li><b>No duplicates, ever.</b> Everybody can own one of everything. When you've pulled a pack's whole set it reads Sold out until the next drop.</li>
+      </ul>
+      <p class="note">Tap the coin in the Home header to get to the shop. Whatever you pull lands in your Locker.</p>
+    </div>
+  </div>
+</div>
+
+<h2><i></i>Sim Engine 7</h2>
+<div class="card">
+  <span class="tag hot"><b>Sim Engine 7</b></span>
+  <h3>A deeper sim engine</h3>
+  <p>Sim Engine 7 is the most advanced version of the game's engine yet. It adds position-specific matchups, so every snap is decided by the players actually lined up against each other: quarterback, target and coverage, rusher and blocker, back and tackler.</p>
+  <h4 style="margin-top:12px">Offense</h4>
+  <ul>
+    <li><b>Passing:</b> the QB's accuracy and decisions, and the target against the man covering him. Pressured throws complete less and get picked more.</li>
+    <li><b>Running:</b> the blocker at the hole decides whether there's a lane, and the back's moves decide the chunk runs. Ball security decides fumbles.</li>
+    <li><b>A real backfield:</b> your HB is the workhorse. Spread had been handing about 40% of the carries to receivers and the TE.</li>
+    <li><b>Breakaways:</b> the carrier's speed and moves against the closest chaser. The old cap is gone.</li>
+  </ul>
+  <h4>Defense</h4>
+  <ul>
+    <li><b>Pass rush:</b> each rusher is matched against the blocker in front of him. Win that and you get pressure; a sack is pressure the QB couldn't escape. One great edge rusher now wrecks drives.</li>
+    <li><b>Coverage:</b> your corners and safeties are matched against the receiver they're on. Good coverage lowers completions on that target and turns bad decisions into picks. There's no flat interception rate anymore.</li>
+    <li><b>Run defense:</b> the defender taking on the blocker at the hole decides stuffs, and your tacklers decide whether a run stays short or goes for a chunk.</li>
+    <li><b>Speed on defense:</b> your fastest chaser is what stops a breakaway, and a fast returner turns picks and fumbles into touchdowns.</li>
+    <li><b>Your game plan counts:</b> the coverage shell you call feeds into the interception odds.</li>
+  </ul>
+  <h4>Both sides</h4>
+  <ul>
+    <li><b>Hot and cold days:</b> every player runs a couple of rating points up or down each game.</li>
+    <li><b>Return touchdowns:</b> kick and punt returns can go the distance (about one every ten games), with their own cut screen.</li>
+  </ul>
+  <h4>What 10 rating points are worth, in points per game</h4>
+  <div class="bars">
+    <div><span>Quarterback</span><i><u style="width:100%"></u></i><b>4.4</b></div>
+    <div><span>Halfback</span><i><u style="width:61%"></u></i><b>2.7</b></div>
+    <div><span>O-lineman</span><i><u style="width:22%"></u></i><b>0.95</b></div>
+  </div>
+  <p class="note">From 1,200 simmed seasons. Overall balance held: about 7 wins a season and roughly 1 in 4 teams making the playoffs, same as before.</p>
+</div>
+
+<h2><i></i>Playoffs got loud</h2>
+<div class="card">
+  <span class="tag"><b>Cinematic mode</b></span>
+  <h3>Intros and music</h3>
+  <p>Tap into a playoff round and you get a battle-start intro: flashes, a wipe to black, silhouettes, then the slam on the beat. Each round has its own track and the Bowl has a champion song if you win it.</p>
+  <div class="duo"><img src="v9.10-vs1.jpg" alt="The screen wipes to black as a playoff round starts"><img src="v9.10-vs3.jpg" alt="The Indigo Bowl versus screen with silhouettes wiping in"></div>
+  <p class="note">Settings &gt; Cinematic mode turns it off if you just want to play. Music has its own volume, and the silent switch mutes it.</p>
+</div>
+<div class="card">
+  <span class="tag"><b>Dailies</b></span>
+  <h3>Wicked Wednesday</h3>
+  <p>The hard twin of Freaky Friday. Every Wednesday the daily comes with a handicap rule that makes the draft tougher, and the rule rotates week to week. Wednesday runs stay off the all-time boards, same as Fridays.</p>
+</div>
+
+<h2><i></i>Fixes from your reports</h2>
+<ul class="fixes">
+  <li><b>Big-play screens show the right guy</b>X-Factor cut screens were naming the wrong player or position about a third of the time. Fixed.</li>
+  <li><b>Taps after your phone sleeps</b>Coming back mid-run could leave the buttons shifted off where you tapped. Fixed.</li>
+  <li><b>Real shinies</b>Shiny Pokémon use their true shiny sprites and keep their color everywhere, including the playoff screens.</li>
+  <li><b>Master Ball captures</b>A captured Pokémon no longer drops itself into a spot. You place it.</li>
+  <li><b>Home screen art</b>The home stage now fits tall phones without cropping the sign.</li>
+</ul>
+
+<div id="league"><h2><i></i>The league so far</h2>
+<p class="lede" style="margin-bottom:12px">Everything played since launch on October 30, pulled from every manager's career save. The Pokémon lists and high scores come from the 538 runs that posted to the league board.</p>
+<div class="tiles"><div><b>697</b><span>Runs finished</span></div><div><b>13,145</b><span>Games simmed</span></div><div><b>192</b><span>Indigo Bowls won</span></div><div><b>965</b><span>Playoff wins</span></div><div><b>201</b><span>Shinies drafted</span></div><div><b>39</b><span>17-0 seasons</span></div></div>
+<h4>Top 10 Pokémon on title teams</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-spr-59.gif" alt=""></span><span class="nm"><b>Arcanine</b></span><span class="v">40<small>titles</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-spr-6.gif" alt=""></span><span class="nm"><b>Charizard</b></span><span class="v">39<small>titles</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-spr-130.gif" alt=""></span><span class="nm"><b>Gyarados</b></span><span class="v">39<small>titles</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-spr-55.gif" alt=""></span><span class="nm"><b>Golduck</b></span><span class="v">37<small>titles</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-spr-61.gif" alt=""></span><span class="nm"><b>Poliwhirl</b></span><span class="v">35<small>titles</small></span></li><li><span class="n">6</span><span class="pic"><img src="v9.10-spr-99.gif" alt=""></span><span class="nm"><b>Kingler</b></span><span class="v">35<small>titles</small></span></li><li><span class="n">7</span><span class="pic"><img src="v9.10-spr-15.gif" alt=""></span><span class="nm"><b>Beedrill</b></span><span class="v">34<small>titles</small></span></li><li><span class="n">8</span><span class="pic"><img src="v9.10-spr-22.gif" alt=""></span><span class="nm"><b>Fearow</b></span><span class="v">34<small>titles</small></span></li><li><span class="n">9</span><span class="pic"><img src="v9.10-spr-24.gif" alt=""></span><span class="nm"><b>Arbok</b></span><span class="v">34<small>titles</small></span></li><li><span class="n">10</span><span class="pic"><img src="v9.10-spr-57.gif" alt=""></span><span class="nm"><b>Primeape</b></span><span class="v">34<small>titles</small></span></li></ol>
+<p class="note">Cloyster tied the last spot at 34.</p>
+<h4>Captains who won it all</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-spr-6.gif" alt=""></span><span class="nm"><b>Charizard</b></span><span class="v">10<small>titles</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-spr-38.gif" alt=""></span><span class="nm"><b>Ninetales</b></span><span class="v">8<small>titles</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-spr-149.gif" alt=""></span><span class="nm"><b>Dragonite</b></span><span class="v">7<small>titles</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-spr-142.gif" alt=""></span><span class="nm"><b>Aerodactyl</b></span><span class="v">7<small>titles</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-spr-131.gif" alt=""></span><span class="nm"><b>Lapras</b></span><span class="v">6<small>titles</small></span></li></ol>
+<h4>Most season MVPs</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-spr-65.gif" alt=""></span><span class="nm"><b>Alakazam</b></span><span class="v">36<small>MVPs</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-spr-157.gif" alt=""></span><span class="nm"><b>Typhlosion</b></span><span class="v">32<small>MVPs</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-spr-230.gif" alt=""></span><span class="nm"><b>Kingdra</b></span><span class="v">29<small>MVPs</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-spr-105.gif" alt=""></span><span class="nm"><b>Marowak</b></span><span class="v">29<small>MVPs</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-spr-130.gif" alt=""></span><span class="nm"><b>Gyarados</b></span><span class="v">25<small>MVPs</small></span></li></ol>
+<h4>High scores · Classic</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-m05.png" alt="" class="coach"></span><span class="nm"><b>Iain</b><small>17-0 · OVR 90</small></span><span class="v">286<small>score</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-m02.png" alt="" class="coach"></span><span class="nm"><b>Phill</b><small>17-0 · OVR 88 · daily</small></span><span class="v">285<small>score</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-m12.png" alt="" class="coach"></span><span class="nm"><b>Danny</b><small>17-0 · OVR 93</small></span><span class="v">282<small>score</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-m01.png" alt="" class="coach"></span><span class="nm"><b>Chandler</b><small>16-1 · OVR 94</small></span><span class="v">267<small>score</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-m06.png" alt="" class="coach"></span><span class="nm"><b>Branden</b><small>16-1 · OVR 83</small></span><span class="v">259<small>score</small></span></li></ol>
+<h4>High scores · Gold</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-m09.png" alt="" class="coach"></span><span class="nm"><b>Chad</b><small>17-0 · OVR 99</small></span><span class="v">288<small>score</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-m02.png" alt="" class="coach"></span><span class="nm"><b>Phill</b><small>17-0 · OVR 98</small></span><span class="v">287<small>score</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-m14.png" alt="" class="coach"></span><span class="nm"><b>Louie</b><small>17-0 · OVR 95 · daily</small></span><span class="v">285<small>score</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-m12.png" alt="" class="coach"></span><span class="nm"><b>Danny</b><small>17-0 · OVR 99</small></span><span class="v">282<small>score</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-m06.png" alt="" class="coach"></span><span class="nm"><b>Branden</b><small>17-0 · OVR 97</small></span><span class="v">281<small>score</small></span></li></ol>
+<p class="note">Each manager's best run. Wednesday and Friday dailies don't count on these boards.</p>
+<h4>Daily board wins</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-m12.png" alt="" class="coach"></span><span class="nm"><b>Danny</b></span><span class="v">3<small>daily wins</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-m09.png" alt="" class="coach"></span><span class="nm"><b>Chad</b></span><span class="v">2<small>daily wins</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-m02.png" alt="" class="coach"></span><span class="nm"><b>Phill</b></span><span class="v">2<small>daily wins</small></span></li></ol><p class="note">One each: Louie, Nick, Iain, Chandler, Bryce.</p>
+<h4>Trophy case</h4><ol class="rank"><li><span class="n">1</span><span class="pic"><img src="v9.10-m06.png" alt="" class="coach"></span><span class="nm"><b>Branden</b><small>128 runs</small></span><span class="v">39<small>titles</small></span></li><li><span class="n">2</span><span class="pic"><img src="v9.10-m12.png" alt="" class="coach"></span><span class="nm"><b>Danny</b><small>100 runs</small></span><span class="v">37<small>titles</small></span></li><li><span class="n">3</span><span class="pic"><img src="v9.10-m01.png" alt="" class="coach"></span><span class="nm"><b>Chandler</b><small>94 runs</small></span><span class="v">27<small>titles</small></span></li><li><span class="n">4</span><span class="pic"><img src="v9.10-m14.png" alt="" class="coach"></span><span class="nm"><b>Louie</b><small>94 runs</small></span><span class="v">22<small>titles</small></span></li><li><span class="n">5</span><span class="pic"><img src="v9.10-m08.png" alt="" class="coach"></span><span class="nm"><b>Nick</b><small>59 runs</small></span><span class="v">15<small>titles</small></span></li></ol>
+<h4>Odds and ends</h4><ul class="fixes"><li><b>Gold is the people's mode</b>418 Gold runs to 120 Classic.</li><li><b>Most drafted</b>Gyarados, on 100 rosters. Arcanine is next at 97.</li><li><b>Luckiest charm</b>Quick Claw. 11 of the 12 teams that pulled it won the Bowl.</li><li><b>Shiny magnet</b>Gyarados has shown up shiny 5 times, more than anyone.</li><li><b>The grinder</b>Branden, 128 runs. Danny is next at 100.</li><li><b>Best win rate</b>Danny at 1087-256 (0.809), 10 runs minimum.</li><li><b>Best coach score</b>Phill, averaging 70 on Coach's Call.</li><li><b>House style</b>Showtime is the most common offense (103 teams) and No Fly Zone the most common defense (90).</li></ul></div>
+
+<div class="ver">You'll know it's live when the version badge in the game reads <b>v9.10</b>.</div>
+</div>
+</body></html>
