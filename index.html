@@ -4323,14 +4323,24 @@ const SIM9 = {
   press:.235, pressUnit:.015, pressMan:.045, pressBlitz:.14, pressDeep:.1, pressFx:4.25, sackOnPress:.235, sackMob:.03,   // pressure and sacks
   comp:.755, compDeep:.505, compD:.0065, compDeepD:.0075, compAcc:.03, compDeepAcc:.035, compSep:.03, compDeepSep:.04, compPress:.14,   // completions
   intS:.0084, intDeep:.0206, intDec:.35, intSep:.25, intPress:1.7, intCover:1.4, intQbUnit:.03, intCovUnit:.06,   // interceptions
-  brk:.0063, brkK:.55, brkDeep:1.6, brkBlitz:1.35, brkBlock:.035,   // the long one
-  stuff:.05, stuffK:.45, stuffBox:3, stuffD:.07, chunk:.09, chunkK:.35, chunkD:.03, fum:.011, fumSec:.3, fumTak:.2,   // runs: stuffs at the point of attack, chunk runs, fumbles
+  brk:.0063, brkK:.4, brkDeep:1.6, brkBlitz:1.35, brkBlock:.015,   // the long one
+  stuff:.05, stuffK:.45, stuffBox:3, stuffD:.07, chunk:.09, chunkK:.25, chunkD:.01, fum:.011, fumSec:.3, fumTak:.2,   // runs: stuffs at the point of attack, chunk runs, fumbles
   carryAbil:.35,   // a back's share of carries moves a little with how good a runner he is next to the HB
   sepYds:0, sepDeepYds:0, carryYds:0,   // matchup yards: off (v9.9 runs: they added per-game noise that let bad rosters steal wins)
   intLong:.10, intLongSpd:.04, fumRet:.08, fumRetSpd:.03,   // defensive returns
   kr:.0055, pr:.0065, retK:.5,   // kick and punt return touchdowns
+  // v9.11: a talent edge has diminishing returns. Every man-on-man edge (carrier v chaser, blocker v defender, receiver v cover man, rusher v
+  // protector) and the passer's own accuracy and decisions pass through softEdge(): small edges count in full, a huge one flattens out near `sat`.
+  // v9.9 let them compound without limit, so a strong roster ran for 7 a carry, never threw a pick, and outscored the league by 45 a game.
+  sat:.8, satD:5,
+  // sitting on a lead: the defense knows the run is coming and loads the box (leadBox is added to the box look), and when the game is out of
+  // reach the closing carries are shared out (the HB keeps garbHB of his usual share)
+  leadBox:.5, garbHB:.35,
+  // the HB is still the workhorse (about 70% of the carries, was 85%): 85% of a run-first team's carries put ordinary backs over 2,500 yards
+  hbShare:.62,
 };
-const squash = d => Math.sign(d) * (Math.min(Math.abs(d), 10) + Math.max(0, Math.abs(d) - 10) * .5);   // a huge edge is still an edge, not a cheat code
+const softEdge = e => SIM9.sat * Math.tanh(e / SIM9.sat);
+const squash = d => Math.sign(d) * (Math.min(Math.abs(d), SIM9.satD) + Math.max(0, Math.abs(d) - SIM9.satD) * .5);   // a huge edge is still an edge, not a cheat code
 
 // ---------- team prep ----------
 function profileOf(U){
@@ -4437,12 +4447,15 @@ class Game6 {
     let pDeep = O.deepShare + (fx.ourDeep || 0) + sty.deep; if(this.down >= 3 && this.dist > 12) pDeep += .2; if(this.ball > 80) pDeep -= .15; if(this.dist <= 3) pDeep -= .12; if(late && lead < -8) pDeep += .15;
     return rand() < clamp(pDeep, .05, .7) ? 'deep' : 'short';
   }
+  // the offense is sitting on a lead: up three scores in the second half, or ahead late (the same spots callPlay leans on the run)
+  sitting(){ const lead = this.score[this.poss] - this.score[1 - this.poss]; return (this.q >= 3 && lead >= 21) || (this.q >= 4 && this.clock < 300 && lead > 7); }
   callLook(){
     const km = this.keyCall('def'); if(km) return km === 'prevent' ? 'cover' : km;
     const D = this.def, sty = this.sfx(D), fx = this.planFx(D, false), w = Object.assign({}, D.look);
     w.box += (fx.lookBox || 0); w.cover += (fx.lookCover || 0); w.blitz += (fx.lookBlitz || 0) + sty.blitz; w.press += (fx.lookPress || 0);
     if(this.down >= 3 && this.dist <= 2) w.box += .25; if(this.down >= 3 && this.dist >= 8){ w.cover += .15; w.blitz += .1; }
     if(this.q >= 4 && this.clock < 240 && this.score[this.poss] < this.score[1 - this.poss]) w.cover += sty.prevent ? .45 : .15;
+    if(this.sitting()) w.box += SIM9.leadBox;   // v9.11: a team running out a lead gets a loaded box
     return pickWeighted(LOOKS, l => Math.max(.02, w[l] || 0));
   }
   planFx(team, offense){
@@ -4486,8 +4499,8 @@ class Game6 {
   spdOf(team, slot, dflt = 70){ const r = team && team.R && slot && team.R[slot]; return r && r.m && r.m.attrs ? (r.m.attrs.SPD || dflt) : dflt; }
   breakaway(O, D, who, cv, y, deep, fxO, pl, run = false){
     // v9.9: the carrier's speed and moves against the chaser's, the blocking on runs, the deep shot and the blitz feed it; no ceiling but sanity
-    const edge = this.zCarry(O, who, run) - this.zChase(D, cv, run);
-    let p = SIM9.brk * Math.exp(SIM9.brkK * edge) * (deep ? SIM9.brkDeep : 1) * (pl.look === 'blitz' ? SIM9.brkBlitz : 1) * (1 + (fxO.theirBigP || 0) * 12);
+    const e = softEdge(this.zCarry(O, who, run) - this.zChase(D, cv, run));
+    let p = SIM9.brk * Math.exp(SIM9.brkK * e) * (deep ? SIM9.brkDeep : 1) * (pl.look === 'blitz' ? SIM9.brkBlitz : 1) * (1 + (fxO.theirBigP || 0) * 12);
     if(run) p *= Math.exp(SIM9.brkBlock * ((O.rblk ?? 72) - (D.rund ?? 72)));
     if(rand() >= Math.min(p, .25)) return y;
     const room = 100 - this.ball - y; if(room <= 12) return y;
@@ -4501,7 +4514,8 @@ class Game6 {
     if(!O.R) return null; const R = O.R, spread = !(O.U.sch && O.U.sch.form === 'pro'), dual = !!O.U.dual, short = this.dist <= 2 || this.ball >= 95;
     const base = spread ? [['HB', .78], ['QB', dual ? .20 : .10], ['FLEX', .04], ['WR2', .02], ['TE', .01]] : [['HB', .70], ['FLEX', .12], ['QB', dual ? .16 : .08], ['WR2', .02]];
     const run = k => this.blendZ(O, k, [['SPD', .4], ['AGI', .3], ['BTK', .3]], 'carry') ?? 0, hb = R.HB ? run('HB') : 0;
-    const w = base.filter(([k]) => R[k]).map(([k, v]) => [k, v * (k === 'HB' ? 1 : Math.exp(SIM9.carryAbil * clamp(run(k) - hb, -2, 2))) * (short && (k === 'FLEX' && !spread) ? 2.5 : short && k === 'QB' ? 1.6 : 1)]);
+    const w = base.filter(([k]) => R[k]).map(([k, v]) => [k, v * (k === 'HB' ? SIM9.hbShare : Math.exp(SIM9.carryAbil * clamp(run(k) - hb, -2, 2))) * (short && (k === 'FLEX' && !spread) ? 2.5 : short && k === 'QB' ? 1.6 : 1)]);
+    if(this.q >= 3 && this.score[this.poss] - this.score[1 - this.poss] >= 21) for(const x of w) if(x[0] === 'HB') x[1] *= SIM9.garbHB;   // v9.11: out of reach, the closing carries go around
     if(O.side === 0 && this.starOn()) for(const x of w) if(x[0] === this.star) x[1] *= 1.8;
     if(O.side === 0 && this.drive.plays === 0) for(const x of w) if(this.itemOf(x[0]) === 'quickclaw') x[1] *= ITEM_SIM.clawLook;
     return w.length ? pickWeighted(w, x => x[1])[0] : null;
@@ -4652,11 +4666,11 @@ class Game6 {
       let y = 3.8 + d * .055 + (this.zCarry(O, who, true) - this.zChase(D, tk, true)) * SIM9.carryYds + normal(0, 2.9);   // centers near 4.3 a carry on an even matchup, about 5.5 for a dominant line on an even matchup
       const avD = this.anvilOf(D); if(avD && !pl.xf){ const an = this.fire(D, avD, 'anvil', .03 * this.q); if(an){ y = Math.min(y, -1 - Math.floor(rand() * 3)); pl.xf = this.xfRec(pl, {who:avD, name:an, team:1 - side}); this.stat(D, avD, 'tfl', 1); } }
       // the point of attack: the blocker at the hole against the defender taking him on decides how often it's stuffed; a stacked box wins it more
-      const hole = this.zBlk(O, this.holeBlk(O)) - this.zShed(D, this.holeDef(D));
+      const hole = softEdge(this.zBlk(O, this.holeBlk(O)) - this.zShed(D, this.holeDef(D)));
       const pStuff = Math.min(.6, SIM9.stuff * Math.exp(-SIM9.stuffK * hole - SIM9.stuffD * d) * (look === 'box' ? SIM9.stuffBox : 1));
       const stuffed = rand() < pStuff; if(stuffed) y = Math.min(y, normal(-.5, 1.5));
       // the chunk run: the carrier against the man who has to tackle him (the breakaway below is the house call)
-      const pBig = stuffed ? 0 : Math.min(.3, SIM9.chunk * Math.exp(SIM9.chunkK * (this.zCarry(O, who, true) - this.zChase(D, tk, true)) + SIM9.chunkD * d) * (otag === 'SPD' ? 1.25 : 1) * (1 + (fxO.theirBigP || 0) * 12));
+      const pBig = stuffed ? 0 : Math.min(.3, SIM9.chunk * Math.exp(SIM9.chunkK * softEdge(this.zCarry(O, who, true) - this.zChase(D, tk, true)) + SIM9.chunkD * d) * (otag === 'SPD' ? 1.25 : 1) * (1 + (fxO.theirBigP || 0) * 12));
       if(rand() < pBig) y += 6 + Math.abs(normal(0, 9));
       const tr = this.fire(O, who, 'truck', .07); if(tr){ y += 5 + Math.abs(normal(0, 7)); pl.xf = this.xfRec(pl, {who, name:tr, team:side}); }
       const bu = (!pl.xf) && this.fire(O, who, 'burst', .06); if(bu){ y += 8 + Math.abs(normal(0, 10)); pl.xf = this.xfRec(pl, {who, name:bu, team:side}); }
@@ -4697,9 +4711,9 @@ class Game6 {
       d = squash(d);
       d += this.isClutch(O, qb) + this.isClutch(O, tgt) * .5 - this.isClutch(D, cv);
       // the matchups on this snap (z-scores; 0 is a typical starter)
-      const zA = this.zAcc(O, qb, deep), zD = this.zDec(O, qb), sep = this.zRec(O, tgt, deep) - this.zCov(D, cv, deep);
+      const zA = softEdge(this.zAcc(O, qb, deep)), zD = softEdge(this.zDec(O, qb)), sep = softEdge(this.zRec(O, tgt, deep) - this.zCov(D, cv, deep));
       // pressure: the rush unit against the protection, and the rusher against the man blocking him; a sack is pressure the QB can't escape
-      let pPress = SIM9.press + (D.rush - O.pp) * SIM9.pressUnit + (this.zRush(D, ru) - this.zPro(O, pr)) * SIM9.pressMan + (look === 'blitz' ? SIM9.pressBlitz : 0) + (deep ? SIM9.pressDeep : 0)
+      let pPress = SIM9.press + (D.rush - O.pp) * SIM9.pressUnit + softEdge(this.zRush(D, ru) - this.zPro(O, pr)) * SIM9.pressMan + (look === 'blitz' ? SIM9.pressBlitz : 0) + (deep ? SIM9.pressDeep : 0)
         + ((fxD.sackP || 0) + (fxO.ourSackP || 0)) * SIM9.pressFx + (D.defId === 'Pillow Fight' ? -.13 : 0) + (O.offId === 'Turnstile Line' ? .13 : 0);
       let sackOn = SIM9.sackOnPress - this.zMob(O, qb) * SIM9.sackMob;
       const sk = this.fire(D, ru, 'sack', .14); if(sk){ pPress = Math.max(pPress, .8); sackOn += .25; pl.xf = this.xfRec(pl, {who:ru, name:sk, team:1 - side}); }
@@ -5555,7 +5569,7 @@ function checkAchievements(ss, P, dex){
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = {ACH, SHAME, UNLOCKS, checkAchievements};
 
-const BUILD = 'v9.10';
+const BUILD = 'v9.11';
 // ===== Pocket League v8 · base: state, profile, router, shared parts =====
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
